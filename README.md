@@ -19,4 +19,7 @@ Mesh网格
 transform 
 
 shader
-pixel shader
+
+vertex shader 顶点着色器
+fragment shader 片元着色器
+pixel shader 像素着色器
