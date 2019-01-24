@@ -1,19 +1,28 @@
 <template>
   <div class="example1">
-    <div id="container" style="width:500px; height:500px; background-color:#000000"></div>
+    <div id="container" ref="container" style="width:500px; height:500px; background-color:#000000"></div>
+    <div class="sdfsadf"></div>
+    <br>
+    <div class="sdfsadf"></div>
+    <br>
+    <div class="sdfsadf"></div>
+    <br>
+    <div class="sdfsadf"></div>
+    <br>
+    <div class="sdfsadf"></div>
+    <br>
+    <div class="sdfsadf"></div>
+    <br>     
+     
   </div>
 </template>
 
 <script>
-import "three";
-console.log(THREE);
-debugger;
-
 export default {
-  name: "viewsChapter2.example1",
+  name: "viewsChapter2Example1",
   mounted() {
     // Grab our container div
-    var container = document.getElementById("container");
+    var container = this.$refs.container;
     // Create the Three.js renderer, add it to our div
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(container.offsetWidth, container.offsetHeight);
