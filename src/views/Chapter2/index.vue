@@ -1,6 +1,8 @@
 <template>
-  <div id="Chapter2">
-    <router-view/>
+  <div class="Chapter2">
+    <transition name="fade">
+      <router-view/>
+    </transition>
   </div>
 </template>
 
@@ -15,3 +17,10 @@ export default {
   methods: {}
 };
 </script>
+
+<style scoped>
+.Chapter2 {
+  height: 100%;
+}
+</style>
+

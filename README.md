@@ -29,3 +29,5 @@ shader
 vertex shader 顶点着色器
 fragment shader 片元着色器
 pixel shader 像素着色器
+
+geometry 结合

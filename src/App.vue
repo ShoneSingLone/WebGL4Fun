@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <c-resize-container class="aside">
+    <c-resize-container class="aside" @widthChange="handleWidthChange">
       <el-tree
         :data="routeTree"
         :props="{
@@ -11,11 +11,16 @@
       ></el-tree>
     </c-resize-container>
     <section class="container">
-      <header class="header" style="height: 60px;">Header</header>
-      <main class="main">
-        <router-view/>
-      </main>
-      <footer class="footer" style="height: 60px;">Footer</footer>
+      <span class="icon iconfont icon-huafei"></span>
+      <header class="header">Header</header>
+      <el-scrollbar class="main">
+        <main>
+          <transition name="fade">
+            <router-view/>
+          </transition>
+        </main>
+      </el-scrollbar>
+      <footer class="footer">Footer</footer>
     </section>
   </div>
 </template>
@@ -24,12 +29,22 @@
 import { routeTree } from "@/router.js";
 
 export default {
+  provide() {
+    return {
+      APP: this
+    };
+  },
   data() {
     return {
-      routeTree
+      routeTree,
+      asideWidth: 300
     };
   },
   methods: {
+    handleWidthChange(width) {
+      console.log(width);
+      this.asideWidth = width;
+    },
     handleNodeClick(data) {
       console.log(data);
       this.$router.push({ name: data.name });
@@ -71,7 +86,7 @@ a {
   height: 100%;
   overflow: hidden;
 
-  .aside {
+  > .aside {
     background-color: #d3dce6;
     color: #333;
     text-align: center;
@@ -101,10 +116,11 @@ a {
       }
     }
   }
-  .container {
+  > .container {
     flex: 1;
     display: flex;
     flex-flow: column nowrap;
+    overflow: hidden;
     @include elevation2();
 
     .header {
@@ -112,20 +128,32 @@ a {
       background-color: #b3c0d1;
       color: #333;
       text-align: center;
+      @include elevation4();
     }
     .main {
       flex: 1;
       background-color: #e9eef3;
-      color: #333;
-      text-align: center;
-      line-height: 160px;
       overflow: hidden;
+      &.el-scrollbar {
+        height: 100%;
+        .el-scrollbar__wrap {
+          height: 100%;
+          overflow-x: hidden;
+          .el-scrollbar__view {
+            height: 100%;
+            > main {
+              height: 100%;
+            }
+          }
+        }
+      }
     }
     .footer {
       flex-basis: 64px;
       background-color: #b3c0d1;
       color: #333;
       text-align: center;
+      @include elevation4();
     }
   }
 }

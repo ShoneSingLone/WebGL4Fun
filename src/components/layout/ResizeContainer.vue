@@ -113,7 +113,6 @@ export default {
 
         /* 改变style */
         thisVue.rcStyle["flex-basis"] = flexBasis + "px";
-
         thisVue.$emit(
           "widthChange",
           thisVue.$refs.rc.getBoundingClientRect().width
@@ -152,7 +151,7 @@ $itemed-color2: #6bcafa;
   height: 100%;
   // z-index: 1;
   display: flex;
-  width: 0;
+  width: 300px;
   overflow: hidden;
   transition: all 0.01s ease-in-out;
 

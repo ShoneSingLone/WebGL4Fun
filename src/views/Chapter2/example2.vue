@@ -3,11 +3,7 @@
     <center>
       <h1>Welcome to WebGL!</h1>
     </center>
-    <div id="container" style="width:95%; height:80%; position:absolute;"></div>
-    <div
-      id="prompt"
-      style="width:95%; height:6%; bottom:0; text-align:center; position:absolute;"
-    >Click to animate the cube</div>
+    <div ref="container" class="container"></div>
   </div>
 </template>
 
@@ -16,7 +12,7 @@ export default {
   name: "viewsChapter2Example2",
   mounted() {
     // Grab our container div
-    var container = document.getElementById("container");
+    var container = this.$refs.container;
     // Create the Three.js renderer, add it to our div
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(container.offsetWidth, container.offsetHeight);
@@ -31,7 +27,7 @@ export default {
       4000
     );
     this.camera.position.set(0, 0, 3);
-    
+
     // Create a directional light to show off the object
     var light = new THREE.DirectionalLight(0xffffff, 1.5);
     light.position.set(0, 0, 1);
@@ -90,24 +86,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-* {
-  font-family: Arial;
-  font-style: italic;
-  body {
-    background-color: #eeeeee;
-    color: #212121;
-    #container {
-      z-index: -1;
-    }
-    #prompt {
-      &:hover {
-        color: white;
-        cursor: pointer;
-      }
-      &:active {
-        color: rgb(189, 183, 183);
-        cursor: pointer;
-      }
+.example2 {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  .container {
+    width: 100%;
+    flex: 1;
+    canvas {
     }
   }
 }

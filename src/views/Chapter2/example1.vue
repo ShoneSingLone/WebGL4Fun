@@ -12,8 +12,7 @@
     <div class="sdfsadf"></div>
     <br>
     <div class="sdfsadf"></div>
-    <br>     
-     
+    <br>
   </div>
 </template>
 

@@ -6,6 +6,7 @@ import './registerServiceWorker'
 import '@/polyfill/requestAnimationFrame';
 import 'reset-css';
 import './plugins/element.js';
+import './app.scss';
 
 Vue.config.productionTip = false
 
