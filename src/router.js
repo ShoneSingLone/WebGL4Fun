@@ -1,6 +1,40 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+let RouterThreeJS = {
+  path: '/ThreeJS',
+  name: 'ThreeJS',
+  component: () => import( /* webpackChunkName: "ThreeJS" */ './views/ThreeJS'),
+  children: [{
+    path: 'example1',
+    name: 'ThreeJS.example1',
+    component: () => import( /* webpackChunkName: "ThreeJS.example1" */ './views/ThreeJS/example1')
+  }, {
+    path: 'example2',
+    name: 'ThreeJS.example2',
+    component: () => import( /* webpackChunkName: "ThreeJS.example2" */ './views/ThreeJS/example2')
+  }]
+};
+
+
+let RouterWebGL = {
+  path: '/WebGL',
+  name: 'WebGL入门指南',
+  component: () => import( /* webpackChunkName: "Chapter2" */ './views/Chapter2'),
+  children: [{
+    path: 'Chapter1',
+    name: 'Chapter1',
+    component: () => import( /* webpackChunkName: "Chapter1" */ './views/Chapter1.vue')
+  }, {
+    path: 'Chapter2/example1',
+    name: 'Chapter2.example1',
+    component: () => import( /* webpackChunkName: "Chapter2.example1" */ './views/Chapter2/example1')
+  }, {
+    path: '/WebGL/Chapter2/example2',
+    name: 'Chapter2.example2',
+    component: () => import( /* webpackChunkName: "Chapter2.example2" */ './views/Chapter2/example2')
+  }]
+}
 
 Vue.use(Router)
 
@@ -16,24 +50,9 @@ let routes = [{
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import( /* webpackChunkName: "about" */ './views/About.vue')
-  }, {
-    path: '/Chapter1',
-    name: 'Chapter1',
-    component: () => import( /* webpackChunkName: "Chapter1" */ './views/Chapter1.vue')
-  }, {
-    path: '/Chapter2',
-    name: 'Chapter2',
-    component: () => import( /* webpackChunkName: "Chapter2" */ './views/Chapter2'),
-    children: [{
-      path: 'example1',
-      name: 'Chapter2.example1',
-      component: () => import( /* webpackChunkName: "Chapter2.example1" */ './views/Chapter2/example1')
-    }, {
-      path: 'example2',
-      name: 'Chapter2.example2',
-      component: () => import( /* webpackChunkName: "Chapter2.example2" */ './views/Chapter2/example2')
-    }]
-  }
+  },
+  RouterWebGL,
+  RouterThreeJS,
 ];
 
 export let routeTree = routes;

@@ -141,7 +141,7 @@ export default {
 
 <style lang="scss" scoped>
 $itemed-color1: #7593f5;
-$itemed-color2: #6bcafa;
+$itemed-color2: #535455;
 
 * {
   user-select: none;

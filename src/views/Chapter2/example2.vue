@@ -26,7 +26,7 @@ export default {
       1,
       4000
     );
-    this.camera.position.set(0, 0, 3);
+    this.camera.position.set(0, 0, 4);
 
     // Create a directional light to show off the object
     var light = new THREE.DirectionalLight(0xffffff, 1.5);
