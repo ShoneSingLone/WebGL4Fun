@@ -5,8 +5,6 @@
 [voxel-engine](https://github.com/maxogden/voxel-engine)
 [Three.js入门指南：张雯莉](https://read.douban.com/reader/ebook/7412854/)
 
-
-
 OpenGL ES Embedded Systems
 WebGL无缝整合到页面，本身只是一个元素
 
@@ -41,10 +39,15 @@ Camera：镜头
 
 ```js
 Cameras（照相机，控制投影方式）
-
     Camera
-    OrthographicCamera
-    PerspectiveCamera
+    OrthographicCamera（正交:平行，比例不变）
+    THREE.OrthographicCamera(left, right, top, bottom, near, far)
+```
+
+![视景体](./public/img/doc/frustum.jpg)
+
+```js
+    PerspectiveCamera（透视:：人眼近大远小）
 
 Core（核心对象）
 
@@ -236,3 +239,7 @@ Extras / Shaders
 使用动画、模型导入、加入光照
 
 着色器
+
+## 照相机
+
+三维投影到二维的一个抽象

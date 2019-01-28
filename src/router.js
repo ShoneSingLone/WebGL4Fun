@@ -13,6 +13,10 @@ let RouterThreeJS = {
     path: 'example2',
     name: 'ThreeJS.example2',
     component: () => import( /* webpackChunkName: "ThreeJS.example2" */ './views/ThreeJS/example2')
+  }, {
+    path: 'example3',
+    name: 'OrthographicCamera',
+    component: () => import( /* webpackChunkName: "ThreeJS.example3" */ './views/ThreeJS/example3')
   }]
 };
 
@@ -46,9 +50,6 @@ let routes = [{
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import( /* webpackChunkName: "about" */ './views/About.vue')
   },
   RouterWebGL,
