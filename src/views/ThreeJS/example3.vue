@@ -27,6 +27,9 @@ export default {
       this.cameraPosition.Y,
       this.cameraPosition.Z
     );
+    /* 盯着原点看 */
+    this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+
     this.scene.add(this.camera);
 
     // a cube in the scene
@@ -47,8 +50,8 @@ export default {
       camera: {},
       scene: {},
       cameraPosition: {
-        X: 0,
-        Y: 0,
+        X: 4,
+        Y: -3,
         Z: 5
       }
     };
