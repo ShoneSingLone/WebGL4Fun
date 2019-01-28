@@ -48,6 +48,7 @@ Cameras（照相机，控制投影方式）
 
 ```js
     PerspectiveCamera（透视:：人眼近大远小）
+    THREE.PerspectiveCamera(fov, aspect, near, far)
 
 Core（核心对象）
 

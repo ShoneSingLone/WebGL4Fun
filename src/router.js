@@ -17,6 +17,10 @@ let RouterThreeJS = {
     path: 'example3',
     name: 'OrthographicCamera',
     component: () => import( /* webpackChunkName: "ThreeJS.example3" */ './views/ThreeJS/example3')
+  }, {
+    path: 'example4',
+    name: 'Perspective',
+    component: () => import( /* webpackChunkName: "ThreeJS.example4" */ './views/ThreeJS/example4')
   }]
 };
 
