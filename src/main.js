@@ -7,13 +7,20 @@ import '@/polyfill/requestAnimationFrame';
 import 'reset-css';
 import './plugins/element.js';
 import './app.scss';
+import "@/utils/WebGL.js";
 
 Vue.config.productionTip = false
 
 THREE.fontCollection = {};
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+if (WEBGL.isWebGLAvailable()) {
+  // Initiate function or other initializations here
+  new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount('#app')
+} else {
+  var warning = WEBGL.getWebGLErrorMessage();
+  document.getElementById('app').appendChild(warning);
+}

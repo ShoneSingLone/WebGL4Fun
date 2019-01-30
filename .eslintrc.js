@@ -4,7 +4,9 @@ module.exports = {
     node: true
   },
   globals: {
-    "THREE": true
+    "THREE": true,
+    "WEBGL": true,
+    "animate": true
   },
   'extends': [
     'plugin:vue/essential',

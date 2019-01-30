@@ -19,9 +19,16 @@ test-color {
         justify-content: center;
         align-items: center;
     }
+
     .position-input {
         position: absolute;
         top: 0;
+    }
+
+    .mesh-position-input {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
 
@@ -33,6 +40,7 @@ test-color {
     .container {
         width: 100%;
         flex: 1;
+
         canvas {}
     }
 }

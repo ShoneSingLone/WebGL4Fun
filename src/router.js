@@ -29,6 +29,10 @@ let RouterThreeJS = {
     path: 'example6',
     name: '材质Material',
     component: () => import( /* webpackChunkName: "ThreeJS.example6" */ './views/ThreeJS/example6')
+  },{
+    path: 'example7',
+    name: '网格Mesh',
+    component: () => import( /* webpackChunkName: "ThreeJS.example7" */ './views/ThreeJS/example7')
   }]
 };
 

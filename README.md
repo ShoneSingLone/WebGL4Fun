@@ -133,10 +133,12 @@ Math（和数学相关的对象）
     Vector4
 
 Objects（物体）
-    Bone
-    Line
+    Bone（骨骼）
+    Line（线）
     LOD
     Mesh（网格，最常用的物体）
+    Mesh(geometry, material)
+
     MorphAnimMesh
     Particle
     ParticleSystem
