@@ -103,7 +103,9 @@ Materials（材质，控制物体的颜色、纹理等）
     MeshBasicMaterial
     MeshDepthMaterial
     MeshFaceMaterial
-    MeshLambertMaterial
+    MeshLambertMaterial:
+    Idiffuse = Kd * Id * cos(theta)
+    
     MeshNormalMaterial
     MeshPhongMaterial
     ParticleBasicMaterial
