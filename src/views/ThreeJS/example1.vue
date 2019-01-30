@@ -37,11 +37,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.threejs-example {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
+<style lang="scss" src="./threejs.scss">
 </style>
+

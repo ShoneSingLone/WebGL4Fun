@@ -10,6 +10,8 @@ import './app.scss';
 
 Vue.config.productionTip = false
 
+THREE.fontCollection = {};
+
 new Vue({
   router,
   store,

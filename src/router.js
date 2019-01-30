@@ -21,6 +21,10 @@ let RouterThreeJS = {
     path: 'example4',
     name: 'Perspective',
     component: () => import( /* webpackChunkName: "ThreeJS.example4" */ './views/ThreeJS/example4')
+  }, {
+    path: 'example5',
+    name: '几何Geometry',
+    component: () => import( /* webpackChunkName: "ThreeJS.example5" */ './views/ThreeJS/example5')
   }]
 };
 
