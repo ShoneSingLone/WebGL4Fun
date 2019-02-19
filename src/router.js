@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Home from './views/Home/index.vue'
 let RouterThreeJS = {
   path: '/ThreeJS',
   name: 'ThreeJS',
@@ -29,10 +29,14 @@ let RouterThreeJS = {
     path: 'example6',
     name: '材质Material',
     component: () => import( /* webpackChunkName: "ThreeJS.example6" */ './views/ThreeJS/example6')
-  },{
+  }, {
     path: 'example7',
     name: '网格Mesh',
     component: () => import( /* webpackChunkName: "ThreeJS.example7" */ './views/ThreeJS/example7')
+  }, {
+    path: 'example8',
+    name: '动画',
+    component: () => import( /* webpackChunkName: "ThreeJS.example8" */ './views/ThreeJS/example8')
   }]
 };
 
@@ -55,14 +59,37 @@ let RouterWebGL = {
     component: () => import( /* webpackChunkName: "Chapter2.example2" */ './views/Chapter2/example2')
   }]
 }
+let RouterAnimation = {
+  path: '/animation',
+  name: 'Vue过渡',
+  component: () => import( /* webpackChunkName: "Animation" */ './views/Animation'),
+  children: [{
+    path: 'example1',
+    name: '单元素/组件的过渡',
+    component: () => import( /* webpackChunkName: "example1" */ './views/Animation/example1.vue')
+  }, {
+    path: 'example2',
+    name: '列表的过渡',
+    component: () => import( /* webpackChunkName: "example2" */ './views/Animation/example2.vue')
+  }]
+}
+
+let RouterHome = {
+  path: '/home',
+  name: 'home',
+  component: Home,
+  children: [{
+    path: 'table_example',
+    name: '表单',
+    component: () => import( /* webpackChunkName: "TableExample" */ './views/Home/TableExample.vue')
+  }]
+
+};
 
 Vue.use(Router)
 
-let routes = [{
-    path: '/',
-    name: 'home',
-    component: Home
-  },
+let routes = [
+  RouterHome,
   {
     path: '/about',
     name: 'about',
@@ -70,9 +97,11 @@ let routes = [{
   },
   RouterWebGL,
   RouterThreeJS,
+  RouterAnimation
 ];
 
 export let routeTree = routes;
+
 export default new Router({
   routes
 })

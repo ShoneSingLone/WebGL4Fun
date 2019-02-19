@@ -24,6 +24,56 @@
 
     &-enter-to {
         opacity: 1;
-        transform: translateX(0);
+    }
+}
+
+$fade-vue-duration: 0.5s;
+
+.fade-vue {
+    &-leave-active {
+        transition: all $fade-vue-duration;
+    }
+
+    &-leave {
+        opacity: 1;
+    }
+
+    &-leave-to {
+        opacity: 0;
+    }
+
+    /* leave之后再enter delay duration时长 */
+    &-enter-active {
+        transition: all $fade-vue-duration 0.5s;
+    }
+
+    &-enter {
+        opacity: 0;
+    }
+
+    &-enter-to {
+        opacity: 1;
+    }
+}
+
+.bounce-enter-active {
+    animation: bounce-in .5s;
+}
+
+.bounce-leave-active {
+    animation: bounce-in .5s reverse;
+}
+
+@keyframes bounce-in {
+    0% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(1);
     }
 }

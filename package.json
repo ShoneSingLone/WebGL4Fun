@@ -13,6 +13,7 @@
     "@types/three": "^0.93.18",
     "element-ui": "^2.4.5",
     "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
     "register-service-worker": "^1.5.2",
     "reset-css": "^4.0.1",
     "resetcss": "^1.0.3",

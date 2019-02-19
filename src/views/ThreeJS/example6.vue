@@ -1,12 +1,12 @@
 <template>
   <div class="threejs-example" ref="example">
     <div class="position-button">
-      <el-button @click="initCube">MeshBasicMaterial</el-button>
+      <el-button @click="initCube">单色MeshBasicMaterial</el-button>
       <el-button @click="initPlane">MeshLambertMaterial</el-button>
       <el-button @click="initSphere">MeshPhongMaterial</el-button>
-      <el-button @click="initCircle">MeshNormalMaterial</el-button>
+      <el-button @click="initCircle">调试用MeshNormalMaterial</el-button>
       <el-button @click="initCylinder">TextureLoader</el-button>
-      <el-button @click="initTetrahedron">Tetrahedron</el-button>
+      <el-button @click="initTetrahedron">Mesh加载同一张图片</el-button>
       <el-button @click="initOctahedron">Octahedron</el-button>
       <el-button @click="initIcosahedron">Icosahedron</el-button>
       <el-button @click="initTorus">Torus</el-button>
@@ -62,6 +62,9 @@ export default {
     };
   },
   methods: {
+    run() {
+      this.renderer.render(this.scene, this.camera);
+    },
     initBase() {
       let wrapperEle = this.$refs.example;
       let rect = wrapperEle.getBoundingClientRect();
@@ -73,7 +76,6 @@ export default {
       /* scene */
       this.scene = new THREE.Scene();
       /* camera */
-      /* (right-left):(top-bottom) = width:height */
       this.camera = new THREE.PerspectiveCamera(
         45,
         rect.width / rect.height,
@@ -87,11 +89,11 @@ export default {
         this.cameraPosition.Z
       );
       /* 盯着原点看 */
-      // this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+      this.camera.lookAt(new THREE.Vector3(0, 0, 0));
       this.scene.add(this.camera);
 
-      var light = new THREE.DirectionalLight(0xffffff, 1.5);
-      light.position.set(0, 0, 1);
+      var light = new THREE.PointLight(0xffffff, 1, 100);
+      light.position.set(10, 15, 5);
       this.scene.add(light);
     },
     initCube() {
@@ -114,7 +116,7 @@ export default {
       );
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     initPlane() {
       this.initBase();
@@ -136,7 +138,7 @@ export default {
       );
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     initSphere() {
       this.initBase();
@@ -158,7 +160,7 @@ export default {
       );
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     initCircle() {
       this.initBase();
@@ -191,14 +193,14 @@ export default {
       cube.position.y = 3;
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     initCylinder() {
       this.initBase();
       var mapUrl = "./img/2.1.jpg";
       /* https://threejs.org/docs/#api/zh/loaders/TextureLoader */
       var map = new THREE.TextureLoader().load(mapUrl, () => {
-        this.renderer.render(this.scene, this.camera);
+        this.run();
       });
       // Now, create a Phong material to show shading; pass in the map
       var material = new THREE.MeshLambertMaterial({ map: map });
@@ -210,19 +212,20 @@ export default {
       );
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     initTetrahedron() {
       this.initBase();
-      var mapUrl = "./img/2.1.jpg";
+      var mapUrl = "./img/threejs/0.png";
       /* https://threejs.org/docs/#api/zh/loaders/TextureLoader */
-      var map = new THREE.TextureLoader().load(mapUrl);
+      var map = new THREE.TextureLoader().load(mapUrl, this.run.bind(this));
       // Now, create a Phong material to show shading; pass in the map
-      var material = new THREE.MeshPhongMaterial({ map: map });
-      var cube = new THREE.Mesh(new THREE.TetrahedronGeometry(1), material);
+      var material = new THREE.MeshLambertMaterial({ map: map });
+      var cube = new THREE.Mesh(new THREE.CubeGeometry(2, 2, 2), material);
+      cube.rotation.set((Math.PI * 2) / 8, (Math.PI * 2) / 8, 0);
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     initOctahedron() {
       this.initBase();
@@ -236,11 +239,13 @@ export default {
       );
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     initIcosahedron() {
       this.initBase();
-      /* THREE.IcosahedronGeometry(radius, detail) */ var cube = new THREE.Mesh(
+      /* THREE.IcosahedronGeometry(radius, detail) */
+
+      var cube = new THREE.Mesh(
         new THREE.IcosahedronGeometry(1),
         new THREE.MeshBasicMaterial({
           color: 0x8bc34a,
@@ -249,7 +254,7 @@ export default {
       );
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     initTorus() {
       this.initBase();
@@ -262,7 +267,7 @@ export default {
       );
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     initTorusKnot() {
       this.initBase();
@@ -276,13 +281,12 @@ export default {
       );
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     initCustom() {
       this.initBase();
       /* 初始化几何形状 */
       var geometry = new THREE.Geometry();
-
       /* 设置顶点位置 */
       /* 顶部4顶点 */
       geometry.vertices.push(new THREE.Vector3(-1, 2, -1));
@@ -320,7 +324,7 @@ export default {
       );
       this.scene.add(cube);
       /* render */
-      this.renderer.render(this.scene, this.camera);
+      this.run();
     },
     async initText() {
       try {
@@ -347,7 +351,7 @@ export default {
         );
         this.scene.add(cube);
         /* render */
-        this.renderer.render(this.scene, this.camera);
+        this.run();
       } catch (error) {
         console.log(error);
       }
@@ -362,7 +366,7 @@ export default {
           this.cameraPosition.Y,
           this.cameraPosition.Z
         );
-        this.renderer.render(this.scene, this.camera);
+        this.run();
       }
     }
   }

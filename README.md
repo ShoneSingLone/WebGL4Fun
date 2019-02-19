@@ -5,6 +5,8 @@
 [voxel-engine](https://github.com/maxogden/voxel-engine)
 
 [Three.js入门指南：张雯莉](https://read.douban.com/reader/ebook/7412854/)
+[source code](https://github.com/Ovilia/ThreeExample.js)
+
 ```
 摘自：《Three.js入门指南》 — 张雯莉
 在豆瓣阅读书店查看：https://read.douban.com/ebook/7412854/

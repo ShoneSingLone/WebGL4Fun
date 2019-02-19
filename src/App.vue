@@ -28,6 +28,7 @@
 <script>
 import { routeTree } from "@/router.js";
 
+
 export default {
   provide() {
     return {

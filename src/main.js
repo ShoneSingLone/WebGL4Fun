@@ -5,9 +5,12 @@ import store from './store'
 import './registerServiceWorker'
 import '@/polyfill/requestAnimationFrame';
 import 'reset-css';
+import '@/assets/animate.css';
 import './plugins/element.js';
 import './app.scss';
+import "@/plugins/stats.js";
 import "@/utils/WebGL.js";
+
 
 Vue.config.productionTip = false
 
