@@ -60,7 +60,7 @@ export default {
   watch: {
     cameraPosition: {
       deep: true,
-      handler: function(value) {
+      handler: function() {
         this.camera.position.set(
           this.cameraPosition.X,
           this.cameraPosition.Y,

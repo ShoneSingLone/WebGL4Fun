@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home/index.vue'
+
 let RouterThreeJS = {
   path: '/ThreeJS',
   name: 'ThreeJS',
@@ -71,6 +72,10 @@ let RouterAnimation = {
     path: 'example2',
     name: '列表的过渡',
     component: () => import( /* webpackChunkName: "example2" */ './views/Animation/example2.vue')
+  }, {
+    path: 'example3',
+    name: '数组的过渡',
+    component: () => import( /* webpackChunkName: "example3" */ './views/Animation/example3.vue')
   }]
 }
 
@@ -79,10 +84,37 @@ let RouterHome = {
   name: 'home',
   component: Home,
   children: [{
-    path: 'table_example',
-    name: '表单',
-    component: () => import( /* webpackChunkName: "TableExample" */ './views/Home/TableExample.vue')
-  }]
+      path: 'table_example',
+      name: '表单',
+      component: () => import( /* webpackChunkName: "TableExample" */ './views/Home/TableExample.vue')
+    }, {
+      path: 'upload',
+      name: 'upload',
+      component: () => import( /* webpackChunkName: "Home.example2" */ './views/Home/example2.vue')
+    }, {
+      path: 'select-tree',
+      name: 'selectTree',
+      component: () => import( /* webpackChunkName: "Home.example2" */ './views/Home/example4.vue')
+    }, {
+      path: 'red',
+      name: 'red',
+      component: () => import( /* webpackChunkName: "Home.example2" */ './views/Home/example3.vue')
+    },
+    {
+      path: 'carousel',
+      name: '轮播图',
+      component: () => import( /* webpackChunkName: "Home.example2" */ './views/Home/carousel.vue')
+    },
+    {
+      path: 'flexible-panel',
+      name: '扩展panel',
+      component: () => import( /* webpackChunkName: "Home.flexiblePanel" */ './views/Home/flexiblePanel.vue')
+    }, {
+      path: 'register',
+      name: '注册',
+      component: () => import( /* webpackChunkName: "Home.register" */ './views/Home/register.vue')
+    }
+  ]
 
 };
 

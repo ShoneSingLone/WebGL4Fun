@@ -16,7 +16,11 @@ function addStyleResource(rule) {
 
 
 module.exports = {
-  lintOnSave: false,
+  devServer: {
+    hot: true,
+    proxy: 'http://localhost:7777'
+  },
+  lintOnSave: true,
   configureWebpack: {
     resolve: {
       alias: {

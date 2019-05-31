@@ -1,8 +1,6 @@
 <template>
   <div class="Chapter2">
-    <transition name="fade">
-      <router-view/>
-    </transition>
+    <!-- <transition name="fade"> <router-view/> </transition> -->
   </div>
 </template>
 

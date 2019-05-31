@@ -1,25 +1,41 @@
 <template>
   <el-table :data="tableData" style="width: 100%" :height="500" border stripe>
-    <el-table-column type="expand" @expand-change="handleExpandChange">
-      <template slot-scope="props">
-        <div v-if="props&&props.column">{{c("columen",props.columne)}}{{getColumnValueFrom(props)}}</div>
-        <div v-else>
-          <table-expand></table-expand>
-        </div>
-      </template>
-    </el-table-column>
-    <el-table-column
-      :label="tbHeader.label"
-      :prop="tbHeader.prop"
-      v-for="(tbHeader, index) in tableHeader"
-      :key="index"
-    ></el-table-column>
+    <template v-if="Bus.collection.condition==='expand'">
+      <el-table-column type="expand" @expand-change="handleExpandChange">
+        <template slot-scope="props">
+          <div
+            v-if="props&&props.column"
+          >{{c("columen",props.columne)}}{{getColumnValueFrom(props)}}</div>
+          <div v-else>
+            <table-expand></table-expand>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column
+        :label="tbHeader.label"
+        :prop="tbHeader.prop"
+        v-for="(tbHeader, index) in tableHeader"
+        :key="index"
+      ></el-table-column>
+    </template>
+    <template v-else>
+      <el-table-column
+        :label="tbHeader.label"
+        :prop="tbHeader.prop"
+        v-for="(tbHeader, index) in tableHeader"
+        :key="index"
+      ></el-table-column>
+    </template>
   </el-table>
 </template>
 
 <script>
 export default {
   name: "TableExpand",
+  inject: ["Bus"],
+  mounted() {
+    console.log(this.Bus.collection.condition);
+  },
   data() {
     let tableData = [...new Array(100)].map((v, i) => {
       let type = i % 4 === 0 ? "expand" : "no";
@@ -70,3 +86,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.c-table-wrapper {
+  .el-table__expanded-cell[class*="cell"] {
+    padding: 0;
+  }
+}
+</style>
