@@ -113,6 +113,10 @@ let RouterHome = {
       path: 'register',
       name: '注册',
       component: () => import( /* webpackChunkName: "Home.register" */ './views/Home/register.vue')
+    }, {
+      path: 'pockjs',
+      name: 'pockjs',
+      component: () => import( /* webpackChunkName: "Home.register" */ './views/Home/pockjs.vue')
     }
   ]
 
