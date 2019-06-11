@@ -6,6 +6,7 @@
  * @license MIT
  */
 let Pocket = function (options) {
+	debugger;
 
 	'use strict';
 
