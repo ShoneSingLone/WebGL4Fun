@@ -8,10 +8,7 @@
 
 <script>
 // import { select as selectData } from "./pockjs/data";
-import zango from "zangodb";
-import { get, set } from "idb-keyval";
 import axios from "axios";
-window.idb = { get, set };
 import IDBStorage from "./pockjs/IDBStorage";
 export default {
   created() {
@@ -22,45 +19,91 @@ export default {
   },
   methods: {
     initPockjs() {
+      console.time("loadDict");
+      var db = new IDBStorage();
+      var sysDict = db.collection("sysDict");
+      sysDict
+        .find({ dictType: { $eq: "GENDER" }, pid: { $ne: "0" } })
+        .then(_ => {
+          console.log('"GENDER"', JSON.stringify(_, null, 2));
+        });
+      sysDict
+        .find({ dictType: { $eq: "AREACODE" }, pid: { $ne: "0" } })
+        .then(_ => {
+          console.log("AREACODE", JSON.stringify(_, null, 2));
+        });
+      sysDict
+        .find({ dictType: { $eq: "IDCARDTYPE" }, pid: { $ne: "0" } })
+        .then(_ => {
+          console.log("IDCARDTYPE", JSON.stringify(_, null, 2));
+        });
+      sysDict
+        .find({ dictType: { $eq: "CAPITALCURRENCYTYPE" }, pid: { $ne: "0" } })
+        .then(_ => {
+          console.log("CAPITALCURRENCYTYPE", JSON.stringify(_, null, 2));
+        });
+      /*       axios
+        .get("/sys/dict/loadDict", {
+          params: {
+            order: "",
+            orderField: "",
+            page: 1,
+            limit: 2000
+          }
+        })
+        .then(({ data: { data: { list } } }) => {
+          console.timeEnd("loadDict");
+          return sysDict.insert(list);
+        })
+        .then(() => {
+          return sysDict.find({ dictType: { $eq: "GENDER" } });
+        })
+        .then(_ => {
+          console.log('"GENDER"', JSON.stringify(_, null, 2));
+        }); */
+    },
+    pockdemo(collectionName) {
       // Create a new Pocket
       var pocket = new IDBStorage();
 
       // Add a collection
-      var staffs = pocket.collection("staff");
+      var staffs = pocket.collection(collectionName);
 
       // Add a item to the collection
-      staffs.insert({ name: "Foo Bar", age: 18 });
-      staffs.insert({ name: "Baz Foo", age: 34 });
+      staffs
+        .insert({ name: "Foo Bar", age: 18 })
+        .then(function() {
+          return staffs.insert({ name: "Baz Foo", age: 34 });
+        })
+        .then(function() {
+          return staffs.insert([
+            { name: "Pete Johnson", age: 44 },
+            { name: "Joe Bloggs", age: 19 }
+          ]);
+        })
+        .then(function() {
+          staffs.find().length; //2
+          // Query for specific items
+          staffs.find({ age: { $gt: 18 } }); //[{ _id:'...', name:'Baz Foo', age:34 }]
 
-      // Add an array of items
-      staffs.insert([
-        { name: "Pete Johnson", age: 44 },
-        { name: "Joe Bloggs", age: 19 }
-      ]);
+          // Get one item
+          staffs.findOne({ name: "Foo Bar" }).age; //18
 
-      // Get all items from a collection
-      staffs.find().length; //2
+          // Remove all items from a collection
+          staffs.remove();
 
-      // Query for specific items
-      staffs.find({ age: { $gt: 18 } }); //[{ _id:'...', name:'Baz Foo', age:34 }]
+          // Remove item
+          staffs.remove({ name: "Foo Bar" });
 
-      // Get one item
-      staffs.findOne({ name: "Foo Bar" }).age; //18
+          // Update item
+          staffs.update({ name: "Foo Bar" }, { age: 19 });
 
-      // Remove all items from a collection
-      staffs.remove();
+          // Commit collection to database
+          staffs.commit();
 
-      // Remove item
-      staffs.remove({ name: "Foo Bar" });
-
-      // Update item
-      staffs.update({ name: "Foo Bar" }, { age: 19 });
-
-      // Commit collection to database
-      staffs.commit();
-
-      // Restore from database
-      pocket.restore();
+          // Restore from database
+          pocket.restore();
+        });
     },
     insert(formName) {
       this.$refs[formName].resetFields();
@@ -68,13 +111,13 @@ export default {
     find() {
       var _this = this;
       var db = new zango.Db("idb", window.dbVersion, {
-        sys_dict: {
+        sysDict: {
           id: true,
           pid: true,
           dictType: true
         }
       });
-      var tableSysDict = db.collection("sys_dict");
+      var tableSysDict = db.collection("sysDict");
       debugger;
       tableSysDict
         .find({
@@ -146,7 +189,7 @@ export default {
         .then(function(resArray) {
           if (resArray.length > 0) {
             db = new zango.Db("idb", oldDBVersion, {
-              sys_dict: {
+              sysDict: {
                 id: true,
                 pid: true,
                 dictType: true
@@ -154,13 +197,13 @@ export default {
             });
             return db.drop().then(function() {
               db = new zango.Db("idb", newDBversion, {
-                sys_dict: {
+                sysDict: {
                   id: true,
                   pid: true,
                   dictType: true
                 }
               });
-              var tableSysDict = db.collection("sys_dict");
+              var tableSysDict = db.collection("sysDict");
               return resArray.map(function(res) {
                 res = res.data;
                 if (res.code !== 0) {

@@ -1,3 +1,21 @@
+import Utils from "./IDBStorage.Utils";
+import Query from "./IDBStorage.Query";
+/* import {
+    get as idbGet,
+    set as idbSet,
+    Store as idbStore
+} from "idb-keyval"; */
+var idbGet = window.idb.get;
+var idbSet = window.idb.set;
+var idbStore = window.idb.Store;
+/* export let idb = {
+    idbGet,
+    idbSet,
+    idbStore
+} */
+
+
+
 /**
  * Pocket.js v2.2.0
  *
@@ -6,338 +24,23 @@
  * @license MIT
  */
 let Pocket = function (options) {
-    debugger;
-
     'use strict';
-
-    var Utils = {
-        /**
-         * Checks a value if of type array
-         * @param {*} arg
-         * @returns {boolean}
-         */
-        isArray: function (arg) {
-            return Object.prototype.toString.call(arg) === '[object Array]';
-        },
-
-        /**
-         * Checks a value if of type object
-         * @param {*} arg
-         * @returns {boolean}
-         */
-        isObject: function (arg) {
-            return Object.prototype.toString.call(arg) === '[object Object]';
-        },
-
-        /**
-         * Recursively merge two objects
-         * @param obj1
-         * @param obj2
-         * @returns {*}
-         */
-        merge: function (obj1, obj2) {
-            for (var p in obj2) {
-                try {
-                    if (obj2[p].constructor == Object) {
-                        obj1[p] = Utils.merge(obj1[p], obj2[p]);
-                    } else {
-                        obj1[p] = obj2[p];
-                    }
-                } catch (e) {
-                    obj1[p] = obj2[p];
-                }
-            }
-            return obj1;
-        },
-
-        /**
-         * Clone object
-         */
-        clone: function (arg) {
-            return (JSON.parse(JSON.stringify(arg)));
-        },
-
-        /**
-         * Resolve object field value passed on string path.
-         * Thank you http://stackoverflow.com/a/22129960/5678694!
-         * @param path
-         * @param object
-         * @returns {*}
-         */
-        resolve: function (path, object) {
-            return path.split('.').reduce(function (prev, curr) {
-                return prev ? prev[curr] : undefined
-            }, object || self)
-        },
-
-        /**
-         * Generates an id with a extremely low chance of collision
-         * @returns {string} ID
-         */
-        uuid: function () {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-                var r = Math.random() * 16 | 0,
-                    v = c == 'x' ? r : r & 0x3 | 0x8;
-                return v.toString(16);
-            });
-        }
+    var dbname = options && options.dbname || 'GK';
+    var tableName = options && options.tableName || 'dict';
+    var dbStore = new idbStore(dbname, tableName);
+    /*   idbSet("heheheh", 'hahahahah', dbStore)
+          .then(_ => {
+              debugger;
+              return idbGet("heheheh", dbStore);
+          })
+          .then(_ => {
+              console.log(_);
+          }); */
+    Pocket.Drivers = {
+        'DEFAULT': window.localStorage,
+        'SESSION_STORAGE': window.sessionStorage,
     };
 
-    var Query = {
-        /**
-         * Formats a DB query
-         * @param {object|string|number} [query] DB query to format
-         */
-        format: function (query) {
-            if (!query) return {};
-            if (typeof query === 'string' || typeof query === 'number') return {
-                _id: query
-            };
-            return query;
-        },
-
-        /**
-         * Finds documents which are valid based on a query
-         *
-         * @param document
-         * @param query
-         * @returns {boolean} valid
-         */
-        compare: function (document, query) {
-            var keys = Object.keys(query),
-                condition,
-                operator;
-
-            for (var i = 0; i < keys.length; i++) {
-                condition = {
-                    name: keys[i],
-                    value: query[keys[i]]
-                };
-
-                // Actual field value
-                var value = Utils.resolve(condition.name, document);
-
-                if (typeof value === 'undefined' && typeof Query.Operators[condition.name] !== 'function') {
-                    return false;
-                }
-
-                if (typeof Query.Operators[condition.name] === 'function') {
-                    return Query.Operators[condition.name](document, condition.value)
-                } else if (typeof condition.value === 'object') {
-                    operator = Object.keys(condition.value)[0];
-                    if (typeof Query.Operators[operator] === 'function') {
-                        return Query.Operators[operator](value, condition.value[operator])
-                    } else {
-                        throw new Error("Unrecognised operator '" + operator + "'");
-                    }
-                } else {
-                    return Query.Operators.$eq(value, condition.value);
-                }
-            }
-
-            return true;
-        },
-
-        /**
-         * Comparison operators
-         * @see https://docs.mongodb.org/manual/reference/operator/query-comparison/
-         */
-        Operators: {
-            /**
-             * Equality test
-             *
-             * @example
-             * Examples.find({ forename: { $eq: 'Foo' } });
-             *
-             * @example
-             * Examples.find({ forename: 'Foo' }); // Shorthand
-             * Examples.find({ forename: { $eq: 'Foo' } });
-             *
-             * @param a
-             * @param b
-             * @return {boolean} result
-             */
-            '$eq': function (a, b) {
-                return a == b;
-            },
-
-            /**
-             * Inequality test
-             *
-             * @example
-             * Examples.find({ forename: { $ne: 'Foo' } });
-             *
-             * @param a
-             * @param b
-             * @return {boolean} result
-             */
-            '$ne': function (a, b) {
-                return a != b;
-            },
-
-            /**
-             * Or test
-             *
-             * @example
-             * Examples.find({ $or: [{ name:'Foo' },{ name:'Bar' }] });
-             *
-             * @param a
-             * @param b
-             */
-            '$or': function (a, b) {
-                // Throw an error if not passed an array of possibilities
-                if (!Utils.isArray(b)) {
-                    throw new Error('$or Operator expects an Array')
-                }
-
-                var i;
-
-                if (Utils.isObject(a)) {
-                    for (i = 0; i < b.length; i++) {
-                        if (Query.compare(a, b[i])) {
-                            return true;
-                        }
-                    }
-                } else {
-                    // Test each value from array of possibilities
-                    for (i = b.length; i >= 0; i--) {
-                        if (this.$eq(a, b[i])) {
-                            // Satisfied, return true
-                            return true;
-                        }
-                    }
-                }
-
-                // Failed to satisfy, return false
-                return false;
-            },
-
-            /**
-             * Greater than test
-             *
-             * @example
-             * Examples.find({ age: { $gt: 17 } });
-             *
-             * @param a
-             * @param b
-             */
-            '$gt': function (a, b) {
-                return a > b;
-            },
-
-            /**
-             * Greater than or equal test
-             *
-             * @example
-             * Examples.find({ age: { $gte: 18 } });
-             *
-             * @param a
-             * @param b
-             */
-            '$gte': function (a, b) {
-                return a >= b;
-            },
-
-            /**
-             * Less than test
-             *
-             * @example
-             * Examples.find({ age: { $lt: 18 } });
-             *
-             * @param a
-             * @param b
-             */
-            '$lt': function (a, b) {
-                return a < b;
-            },
-
-            /**
-             * Less than or equal test
-             *
-             * @example
-             * Examples.find({ age: { $lte: 18 } });
-             *
-             * @param a
-             * @param b
-             */
-            '$lte': function (a, b) {
-                return a <= b;
-            },
-
-            /**
-             * Contains test for strings
-             *
-             * @example
-             * Examples.find({ name: { $contains: "foo" } });
-             *
-             * @param a
-             * @param b
-             */
-            '$contains': function (a, b) {
-                return a.indexOf(b) > -1;
-            },
-
-            /**
-             * Check whether a key exists within an array
-             *
-             * @example
-             * Examples.find({ age:{ $in: [16,17,18] } });
-             *
-             * @param a
-             * @param b
-             * @returns {boolean}
-             */
-            '$in': function (a, b) {
-                // Throw an error if not passed an array of possibilities
-                if (!Utils.isArray(b)) {
-                    throw new Error('$in Operator expects an Array')
-                }
-                return b.indexOf(a) > -1;
-            },
-
-            /**
-             * Check whether a key does not exist within an array
-             *
-             * @example
-             * Examples.find({ age:{ $nin: [16,17,18] } });
-             *
-             * @param a
-             * @param b
-             * @returns {boolean}
-             */
-            '$nin': function (a, b) {
-                // Throw an error if not passed an array of possibilities
-                if (!Utils.isArray(b)) {
-                    throw new Error('$nin Operator expects an Array')
-                }
-                return b.indexOf(a) === -1;
-            },
-
-            /**
-             * Check whether key is data type. Uses standard javascript object types.
-             *
-             * @example
-             * Examples.find({ age:{ $type: "number" } });
-             *
-             * @param a
-             * @param b
-             */
-            '$type': function (a, b) {
-                // Null
-                if (b === "null") {
-                    return a === null;
-                }
-
-                // Arrays
-                if (b === "array") {
-                    return Utils.isArray(a);
-                }
-
-                // All other supported types
-                return typeof a === b;
-            }
-        }
-    };
 
     /**
      * Store Object
@@ -351,23 +54,11 @@ let Pocket = function (options) {
         this.version = '2.2.0';
         this.collections = {};
         this.options = Utils.merge({
-            autoCommit: true,
-            dbname: "pocket",
-            driver: Pocket.Drivers.DEFAULT
+            dbname: dbname,
+            driver: 'idb'
         }, options || {});
 
-        if (!this.options.driver)
-            throw new Error('Storage driver was not found');
-        if (this.options.driver === Pocket.Drivers.WEBSQL) {
-            if (!window.hasOwnProperty("openDatabase"))
-                throw new Error('Web SQL is not supported in your browser');
-            this.options.driver = openDatabase(this.options.dbname, '1.0', 'Pocket.js datastore', 10 * 1024 * 1024);
-        }
-        if (this.options.driver === Pocket.Drivers.indexedDB) {
-            if (!window.hasOwnProperty("openDatabase"))
-                throw new Error('Web SQL is not supported in your browser');
-            this.options.driver = openDatabase(this.options.dbname, '1.0', 'Pocket.js datastore', 10 * 1024 * 1024);
-        }
+        if (!this.options.driver) throw new Error('Storage driver was not found');
     }
     /**
      * Collection Object
@@ -384,6 +75,7 @@ let Pocket = function (options) {
         this.length = 0;
         return this;
     }
+
     /**
      * Document Object
      * @param {object} object Document data
@@ -463,19 +155,16 @@ let Pocket = function (options) {
          * @param options
          * @param callback
          */
-        restore: function (options, callback) {
-            var self = this,
-                driver = this.options.driver;
+        restore: function (options, ) {
+            var driver = this.options.driver;
 
             if (typeof options === 'function') {
-                callback = options;
                 options = {};
             }
 
-            callback = callback || function () {};
 
-            if (this.options.driver === Pocket.Drivers.DEFAULT ||
-                this.options.driver === Pocket.Drivers.SESSION_STORAGE) {
+
+            if (this.options.driver === Pocket.Drivers.DEFAULT || this.options.driver === Pocket.Drivers.SESSION_STORAGE) {
                 var storage = this.options.driver;
                 var len = storage.length;
                 for (; len--;) {
@@ -494,50 +183,6 @@ let Pocket = function (options) {
                         }
                     }
                 }
-            }
-
-            if (this.options.driver.toString() === "[object Database]") {
-                this.options.driver.transaction(function (tx) {
-                    tx.executeSql('SELECT tbl_name from sqlite_master WHERE type = "table" AND tbl_name != "__WebKitDatabaseInfoTable__"', [], function (tx, results) {
-                        var rows = results.rows,
-                            count = 0,
-                            length = rows.length;
-
-                        // No tables
-                        if (length == 0) {
-                            return callback(null);
-                        }
-
-                        // Has tables
-                        for (var i = 0, len = rows.length; i < len; i++) {
-                            tx.executeSql('SELECT json from ' + rows.item(i).tbl_name + ' LIMIT 1', [], function (tx, results) {
-                                var rows = results.rows;
-
-                                for (var i = 0, len = rows.length; i < len; i++) {
-                                    var json = rows.item(i).json;
-                                    if (typeof json === 'string') {
-                                        var data = JSON.parse(json),
-                                            collection;
-                                        collection = new Collection(data.name, data.options);
-                                        collection.options.driver = driver;
-                                        collection.documents = data.documents;
-                                        collection.length = data.documents.length;
-                                        self.collections[collection.name] = collection;
-                                    }
-
-                                    // Increment count or exit
-                                    if (count == length - 1) {
-                                        callback(null);
-                                    } else {
-                                        count++;
-                                    }
-                                }
-                            });
-                        }
-                    }, function (tx, error) {
-                        callback(error);
-                    });
-                });
             }
 
             return this;
@@ -587,11 +232,7 @@ let Pocket = function (options) {
 
             this.length = this.documents.length;
 
-            if (this.options.autoCommit) {
-                this.commit(callback);
-            }
-
-            return document;
+            return this.commit(callback);
         },
 
         /**
@@ -613,33 +254,35 @@ let Pocket = function (options) {
         find: function (query) {
             var keys,
                 results;
-
+            var _this = this;
             // Get clone of documents in collection
-            results = this.documents.slice(0);
+            return (_this.documents.length === 0 ?
+                    idbGet(_this.options.dbname + "." + _this.name, dbStore) :
+                    Promise.resolve(_this))
+                .then(function (collection) {
+                    _this.documents = collection.documents;
+                    _this.length = collection.length;
+                    results = _this.documents.slice(0);
+                    query = Query.format(query);
+                    // Get query keys
+                    keys = Object.keys(query);
+                    while (keys.length > 0) {
+                        // Break out of loop if we have 0 documents in result
+                        if (results.length === 0) {
+                            break;
+                        }
+                        results = results.filter(function (document) {
+                            var part = {};
+                            part[keys[0]] = query[keys[0]];
+                            return Query.compare(document, part)
+                        });
 
-            query = Query.format(query);
-
-            // Get query keys
-            keys = Object.keys(query);
-
-            while (keys.length > 0) {
-                // Break out of loop if we have 0 documents in result
-                if (results.length === 0) {
-                    break;
-                }
-
-                results = results.filter(function (document) {
-                    var part = {};
-                    part[keys[0]] = query[keys[0]];
-                    return Query.compare(document, part)
-                });
-
-                // Remove query key
-                keys.splice(0, 1);
-            }
-
-            // Return results to caller
-            return results;
+                        // Remove query key
+                        keys.splice(0, 1);
+                    }
+                    // Return results to caller
+                    return Promise.resolve(results);
+                })
         },
 
         /**
@@ -693,12 +336,7 @@ let Pocket = function (options) {
                 }
             }, this);
 
-            if (this.options.autoCommit) {
-                this.commit(callback);
-            }
-
-            // Return collection
-            return this;
+            return this.commit(callback);
         },
 
         /**
@@ -739,12 +377,8 @@ let Pocket = function (options) {
                 }
             }, this);
 
-            if (this.options.autoCommit) {
-                this.commit(callback);
-            }
+            return this.commit(callback);
 
-            // Return collection
-            return this;
         },
 
         /**
@@ -752,37 +386,14 @@ let Pocket = function (options) {
          *
          * @return {Collection}
          */
-        commit: function (callback) {
-            var name = this.name;
-            debugger;
+        commit: function () {
             var collection = JSON.parse(JSON.stringify(this));
-
-            // Convert storage
-            delete collection.options.driver;
-
-            // Convert to JSON
-            var json = JSON.stringify(collection);
-
-            callback = callback || function () {};
-
-            if (this.options.driver === Pocket.Drivers.DEFAULT ||
-                this.options.driver === Pocket.Drivers.SESSION_STORAGE) {
-                this.options.driver.setItem(this.options.dbname.concat("." + this.name), json);
+            if (this.options.driver === 'idb') {
+                console.log('commit', collection.name, collection);
+                return idbSet(this.options.dbname.concat("." + collection.name), collection, dbStore)
+            } else {
+                return Promise.reject('commit fail')
             }
-
-            if (this.options.driver.toString() === "[object Database]") {
-                this.options.driver.transaction(function (tx) {
-                    tx.executeSql('DROP TABLE IF EXISTS ' + name);
-                    tx.executeSql('CREATE TABLE ' + name + ' (json)');
-                    tx.executeSql('INSERT INTO ' + name + ' (json) VALUES (?)', [json], function (tx, result) {
-                        callback(null, tx, result);
-                    }, function (tx, error) {
-                        callback(error);
-                    });
-                });
-            }
-
-            return this;
         },
 
         /**
@@ -797,26 +408,17 @@ let Pocket = function (options) {
          * Delete collection contents
          */
         destroy: function () {
-            // Force auto commit
-            if (!this.options.autoCommit)
-                this.options.autoCommit = true;
-
-            // Remove all documents in collection
-            this.remove();
-            this.documents = this.options = this.name = null;
+            var _this = this;
+            return _this.remove().then(function () {
+                _this.documents = _this.options = _this.name = null;
+                return Promise.resolve();
+            })
         }
     };
 
     return new Store(options);
 }
 
-Pocket.Drivers = {
-    'DEFAULT': window.localStorage,
-    'LOCAL_STORAGE': window.localStorage,
-    'SESSION_STORAGE': window.sessionStorage,
-    'WEBSQL': 'WEBSQL',
-    'indexedDB': 'indexedDB'
-};
 
 if (typeof exports !== 'undefined') {
     if (typeof module !== 'undefined' && module.exports) {
