@@ -3,6 +3,13 @@
     <el-input v-model="inputtext"></el-input>
     <el-button @click="insert">insert</el-button>
     <el-button @click="find">find</el-button>
+    <div :data-muted="String(mutedState)" class="options mask">
+      <!-- <el-button size="mini" round @click='playmp3'>播放mp3</el-button> -->
+      <el-button size="mini" plain round @click="play" class="btn-play">播放</el-button>
+      <el-button size="mini" plain round @click="pause" primary class="btn btn-pause">暂停</el-button>
+      <!-- <el-button size="mini" round @click='cancel'>取消</el-button> -->
+      <!-- <el-button size="mini" round @click='toggleMuted'>{{mutedText}}</el-button> -->
+    </div>
   </div>
 </template>
 
@@ -10,9 +17,11 @@
 // import { select as selectData } from "./pockjs/data";
 import axios from "axios";
 import IDBStorage from "./pockjs/IDBStorage";
+import topk from "./pockjs/Tokepp";
 export default {
+  mixins: [topk],
   created() {
-    this.initPockjs();
+    // this.initPockjs();
   },
   data() {
     return { inputtext: "", pocket: {} };
@@ -42,25 +51,6 @@ export default {
         .then(_ => {
           console.log("CAPITALCURRENCYTYPE", JSON.stringify(_, null, 2));
         });
-      /*       axios
-        .get("/sys/dict/loadDict", {
-          params: {
-            order: "",
-            orderField: "",
-            page: 1,
-            limit: 2000
-          }
-        })
-        .then(({ data: { data: { list } } }) => {
-          console.timeEnd("loadDict");
-          return sysDict.insert(list);
-        })
-        .then(() => {
-          return sysDict.find({ dictType: { $eq: "GENDER" } });
-        })
-        .then(_ => {
-          console.log('"GENDER"', JSON.stringify(_, null, 2));
-        }); */
     },
     pockdemo(collectionName) {
       // Create a new Pocket
