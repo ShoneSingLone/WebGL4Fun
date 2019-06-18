@@ -5,7 +5,11 @@
 <script>
 export default {
   name: "threejs-example1",
+  beforeCreate() {
+    debugger;
+  },
   mounted() {
+    debugger;
     this.init1();
   },
   data() {

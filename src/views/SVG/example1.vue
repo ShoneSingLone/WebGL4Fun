@@ -1,0 +1,119 @@
+<template>
+  <div class="example1">
+    <svg
+      viewBox="0 0 140 140"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:cc="http://creativecommons.org/ns#"
+      xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      id="svg15"
+      width="140"
+      height="140"
+      version="1.1"
+      inkscape:version="0.92.3 (2405546, 2018-03-11)"
+      sodipodi:docname="svgdemo.svg"
+    >
+      <rect id="rect2" width="2" height="0" x="128" y="44" fill="rgb(255, 255, 255)"></rect>
+      <text
+        id="text4"
+        x="43.5"
+        y="32.6"
+        font-size="24"
+        style="stoke:black"
+        textLength="76"
+        transform="matrix(1,0,0,1,0,0)"
+      >GuaGua</text>
+      <g id="whiskers">
+        <line id="line6" x1="70" x2="140" y1="70" y2="100" stroke-width="2" style="stroke:green"></line>
+        <line id="line6" x1="70" x2="140" y1="70" y2="70" stroke-width="2" style="stroke:green"></line>
+      </g>
+      <use id="use9" transform="scale(-1,1) translate(-120)" xlink:href="#whiskers"></use>
+      <polyline
+        id="polyline11"
+        points="99 90, 89 50, 69 90, 49 50, 29 90"
+        style="fill:none;stroke:#008000;stroke-width:1"
+        transform="translate(-9.5,-13.1)"
+      ></polyline>
+      <g id="tooth">
+        <path
+          id="path13"
+          stroke-width
+          d="M 89.2 103.6 h -10 a 5 10 0 0 0 10 0"
+          style="fill:#fff;stroke:#000"
+          inkscape:connector-curvature="0"
+        ></path>
+      </g>
+      <use id="use2" transform="translate(10)" xlink:href="#tooth"></use>
+      <use
+        id="use9-1"
+        width="100%"
+        height="100%"
+        x="0"
+        y="0"
+        transform="translate(-40,33.1) "
+        xlink:href="#whiskers"
+      ></use>
+    </svg>
+
+    <svg width="200px" height="200px" viewBox="0 0 200 200">
+      <circle cx="25" cy="25" r="25" style="stroke:black;fill:none;"></circle>
+      <rect x="100" y="5" width="30" height="80" style="stroke:blue;fill:none;"></rect>
+      <cat></cat>
+      <svg
+        x="100px"
+        y="5px"
+        width="30px"
+        height="80px"
+        viewBox="0 0 60 160"
+        preserveAspectRatio="xMinYMin meet"
+      >
+        <circle cx="25" cy="25" r="25" style="stroke:black;fill:none;"></circle>
+        <cat></cat>
+      </svg>
+    </svg>
+    <cat></cat>
+  </div>
+</template>
+
+ <script>
+import cat from "./svgComponent/Cat";
+export default {
+  name: "viewsChapter2Example1",
+  mounted() {},
+  data() {
+    return {};
+  },
+  methods: {
+    handleClick() {
+      debugger;
+      console.log("handleClick");
+    }
+  },
+  components: {
+    cat
+  }
+};
+</script> <style lang="scss" scoped>
+.example1 {
+  width: 100%;
+  height: 100%;
+  background: url(./assets/svgdemo.svg) center center/contain no-repeat;
+}
+.hahah {
+  &:hover {
+    cursor: pointer;
+  }
+}
+text {
+  fill: rgb(170, 21, 21);
+  font-size: 24;
+}
+rect {
+  fill: none;
+  stroke: black;
+}
+</style>

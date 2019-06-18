@@ -9,7 +9,10 @@ let RouterThreeJS = {
   children: [{
     path: 'example1',
     name: 'ThreeJS.example1',
-    component: () => import( /* webpackChunkName: "ThreeJS.example1" */ './views/ThreeJS/example1')
+    component: () => {
+      debugger;
+      return import( /* webpackChunkName: "ThreeJS.example1" */ './views/ThreeJS/example1');
+    }
   }, {
     path: 'example2',
     name: 'ThreeJS.example2',
@@ -79,6 +82,17 @@ let RouterAnimation = {
   }]
 }
 
+let RouterSVG = {
+  path: '/svg',
+  name: 'SVG',
+  component: () => import( /* webpackChunkName: "SVG" */ './views/SVG'),
+  children: [{
+    path: 'example1',
+    name: '基本',
+    component: () => import( /* webpackChunkName: "example1" */ './views/SVG/example1.vue')
+  }]
+}
+
 let RouterHome = {
   path: '/home',
   name: 'home',
@@ -133,6 +147,7 @@ let routes = [
   },
   RouterWebGL,
   RouterThreeJS,
+  RouterSVG,
   RouterAnimation
 ];
 
