@@ -131,6 +131,14 @@ let RouterHome = {
       path: 'pockjs',
       name: 'pockjs',
       component: () => import( /* webpackChunkName: "Home.register" */ './views/Home/pockjs.vue')
+    }, {
+      path: 'region',
+      name: 'region',
+      component: () => import( /* webpackChunkName: "Home.register" */ './views/Home/region.vue')
+    }, {
+      path: 'drag',
+      name: 'drag',
+      component: () => import( /* webpackChunkName: "Home.register" */ './views/Home/drag.vue')
     }
   ]
 
