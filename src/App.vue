@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { routeTree } from "@/router.js";
+import { routeTree } from "@/router";
 
 
 export default {
