@@ -1,15 +1,11 @@
 <template>
   <div class="example1">
+    <svg width="100%" viewBox="0 0 1920 1080">
+      <rect x="0" y="0" width="20" height="15" strok="green" transform="scale(2) translate(30,20)" />
+      <rect x="0" y="0" width="20" height="15" strok="red" transform="translate(30,20) scale(2)" />
+    </svg>
     <svg
       viewBox="0 0 140 140"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:cc="http://creativecommons.org/ns#"
-      xmlns:dc="http://purl.org/dc/elements/1.1/"
-      xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-      xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-      xmlns:svg="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
       id="svg15"
       width="140"
       height="140"
@@ -17,7 +13,7 @@
       inkscape:version="0.92.3 (2405546, 2018-03-11)"
       sodipodi:docname="svgdemo.svg"
     >
-      <rect id="rect2" width="2" height="0" x="128" y="44" fill="rgb(255, 255, 255)"></rect>
+      <rect id="rect2" width="2" height="0" x="128" y="44" fill="rgb(255, 255, 255)" />
       <text
         id="text4"
         x="43.5"
@@ -28,16 +24,16 @@
         transform="matrix(1,0,0,1,0,0)"
       >GuaGua</text>
       <g id="whiskers">
-        <line id="line6" x1="70" x2="140" y1="70" y2="100" stroke-width="2" style="stroke:green"></line>
-        <line id="line6" x1="70" x2="140" y1="70" y2="70" stroke-width="2" style="stroke:green"></line>
+        <line id="line6" x1="70" x2="140" y1="70" y2="100" stroke-width="2" style="stroke:green" />
+        <line id="line6" x1="70" x2="140" y1="70" y2="70" stroke-width="2" style="stroke:green" />
       </g>
-      <use id="use9" transform="scale(-1,1) translate(-120)" xlink:href="#whiskers"></use>
+      <use id="use9" transform="scale(-1,1) translate(-120)" xlink:href="#whiskers" />
       <polyline
         id="polyline11"
         points="99 90, 89 50, 69 90, 49 50, 29 90"
         style="fill:none;stroke:#008000;stroke-width:1"
         transform="translate(-9.5,-13.1)"
-      ></polyline>
+      />
       <g id="tooth">
         <path
           id="path13"
@@ -45,9 +41,9 @@
           d="M 89.2 103.6 h -10 a 5 10 0 0 0 10 0"
           style="fill:#fff;stroke:#000"
           inkscape:connector-curvature="0"
-        ></path>
+        />
       </g>
-      <use id="use2" transform="translate(10)" xlink:href="#tooth"></use>
+      <use id="use2" transform="translate(10)" xlink:href="#tooth" />
       <use
         id="use9-1"
         width="100%"
@@ -56,13 +52,13 @@
         y="0"
         transform="translate(-40,33.1) "
         xlink:href="#whiskers"
-      ></use>
+      />
     </svg>
 
     <svg width="200px" height="200px" viewBox="0 0 200 200">
-      <circle cx="25" cy="25" r="25" style="stroke:black;fill:none;"></circle>
-      <rect x="100" y="5" width="30" height="80" style="stroke:blue;fill:none;"></rect>
-      <cat></cat>
+      <circle cx="25" cy="25" r="25" style="stroke:black;fill:none;" />
+      <rect x="100" y="5" width="30" height="80" style="stroke:blue;fill:none;" />
+      <cat />
       <svg
         x="100px"
         y="5px"
@@ -71,8 +67,8 @@
         viewBox="0 0 60 160"
         preserveAspectRatio="xMinYMin meet"
       >
-        <circle cx="25" cy="25" r="25" style="stroke:black;fill:none;"></circle>
-        <cat></cat>
+        <circle cx="25" cy="25" r="25" style="stroke:black;fill:none;" />
+        <cat />
       </svg>
     </svg>
     <cat></cat>
