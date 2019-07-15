@@ -1,11 +1,10 @@
 <template>
   <div class="example1">
-    <h1>椭圆</h1>
-    <svg-h></svg-h>
-    <h1>椭圆</h1>
+    <div style="width:100%;height:1000px;">
+    </div>
+    <div style="width:100%;height:1000px;">
+    </div>
     <br />
-    <svg-cat></svg-cat>
-    <svg-cat2></svg-cat2>
   </div>
 </template>
 
@@ -28,7 +27,6 @@ export default {
 .example1 {
   width: 100%;
   height: 100%;
-  background: url(./assets/svgdemo.svg) center center/contain no-repeat;
 }
 .hahah {
   &:hover {
