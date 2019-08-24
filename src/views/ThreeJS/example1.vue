@@ -5,11 +5,8 @@
 <script>
 export default {
   name: "threejs-example1",
-  beforeCreate() {
-    debugger;
-  },
+  beforeCreate() {},
   mounted() {
-    debugger;
     this.init1();
   },
   data() {
@@ -17,18 +14,18 @@ export default {
   },
   methods: {
     init1() {
-      var renderer = new THREE.WebGLRenderer();
+      let renderer = new THREE.WebGLRenderer();
       renderer.setSize(400, 300);
       renderer.setClearColor(0x000000);
       this.$refs.wrapper.appendChild(renderer.domElement);
       // scene
-      var scene = new THREE.Scene();
+      let scene = new THREE.Scene();
       // camera
-      var camera = new THREE.PerspectiveCamera(45, 4 / 3, 1, 1000);
+      let camera = new THREE.PerspectiveCamera(45, 4 / 3, 1, 1000);
       camera.position.set(0, 0, 5);
       scene.add(camera);
       // a cube in the scene
-      var cube = new THREE.Mesh(
+      let cube = new THREE.Mesh(
         new THREE.CubeGeometry(1, 1, 3),
         new THREE.MeshBasicMaterial({
           color: 0xff0000

@@ -1,8 +1,10 @@
 <template>
   <div class="example1">
     <div style="width:100%;height:1000px;">
+      <svg-text></svg-text>
     </div>
     <div style="width:100%;height:1000px;">
+      <svg-h></svg-h>
     </div>
     <br />
   </div>
@@ -11,7 +13,7 @@
  <script>
 import components from "./svgComponent";
 export default {
-  name: "viewsChapter2Example1",
+  name: "svgD3",
   mounted() {},
   data() {
     return {};

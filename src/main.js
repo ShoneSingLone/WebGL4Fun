@@ -10,7 +10,7 @@ import './plugins/element.js';
 import './app.scss';
 import "@/plugins/stats.js";
 import "@/utils/WebGL.js";
-
+window.Vue = Vue;
 
 Vue.config.productionTip = false
 

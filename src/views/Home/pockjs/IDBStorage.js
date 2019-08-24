@@ -28,14 +28,7 @@ let Pocket = function (options) {
     var dbname = options && options.dbname || 'GK';
     var tableName = options && options.tableName || 'dict';
     var dbStore = new idbStore(dbname, tableName);
-    /*   idbSet("heheheh", 'hahahahah', dbStore)
-          .then(_ => {
-              debugger;
-              return idbGet("heheheh", dbStore);
-          })
-          .then(_ => {
-              console.log(_);
-          }); */
+    
     Pocket.Drivers = {
         'DEFAULT': window.localStorage,
         'SESSION_STORAGE': window.sessionStorage,

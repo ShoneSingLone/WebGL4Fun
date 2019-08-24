@@ -14,5 +14,9 @@ export default {
         path: 'example3',
         name: 'svg裁剪和蒙版',
         component: () => import( /* webpackChunkName: "example3" */ '@/views/SVG/example3.vue')
+    }, {
+        path: 'd3example',
+        name: 'D3',
+        component: () => import( /* webpackChunkName: "d3example" */ '@/views/SVG/d3example.vue')
     }]
 }

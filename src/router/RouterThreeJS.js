@@ -6,7 +6,6 @@ export default {
         path: 'example1',
         name: 'ThreeJS.example1',
         component: () => {
-            debugger;
             return import( /* webpackChunkName: "ThreeJS.example1" */ '@/views/ThreeJS/example1');
         }
     }, {

@@ -1,6 +1,8 @@
 <template>
   <div class="Chapter2">
-    <!-- <transition name="fade"> <router-view/> </transition> -->
+    <transition name="fade">
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -8,9 +10,7 @@
 // @ is an alias to /src
 export default {
   name: "viewsChapter2",
-  mounted() {
-    debugger;
-  },
+  mounted() {},
   data() {
     return {};
   },
