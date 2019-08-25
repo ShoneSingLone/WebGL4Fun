@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import loadJS from "@ventose/utils-loadjs";
+
 let thisVue;
 let minWidth = 0;
 
@@ -36,9 +38,10 @@ console.log(EVENT);
 export default {
   name: "ResizeContainer",
   props: {},
-  mounted() {
+  async mounted() {
     thisVue = this;
-    thisVue.initMouseAction();
+    await loadJS([["jquery", "./js/jquery.js"]]);
+    this.initMouseAction();
   },
   data() {
     return {

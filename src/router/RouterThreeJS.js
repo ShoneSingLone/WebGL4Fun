@@ -10,7 +10,7 @@ export default {
         }
     }, {
         path: 'example2',
-        name: 'ThreeJS.example2',
+        name: '旋转立方头像',
         component: () => import( /* webpackChunkName: "ThreeJS.example2" */ '@/views/ThreeJS/example2')
     }, {
         path: 'example3',

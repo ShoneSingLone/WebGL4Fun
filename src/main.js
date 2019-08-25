@@ -8,13 +8,9 @@ import 'reset-css';
 import '@/assets/animate.css';
 import './plugins/element.js';
 import './app.scss';
-import "@/plugins/stats.js";
 import "@/utils/WebGL.js";
 window.Vue = Vue;
-
 Vue.config.productionTip = false
-
-THREE.fontCollection = {};
 
 if (WEBGL.isWebGLAvailable()) {
   // Initiate function or other initializations here
