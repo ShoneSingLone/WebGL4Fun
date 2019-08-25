@@ -140,7 +140,6 @@ export default {
 
       var gui = new dat.GUI();
       this.gui = new dat.GUI();
-      
       gui.addColor(controls, "positionX").name("x轴");
       gui.addColor(controls, "positionY").name("y轴");
       gui.addColor(controls, "positionZ").name("z轴");
