@@ -3,20 +3,11 @@ export default {
     name: 'SVG',
     component: () => import( /* webpackChunkName: "SVG" */ '@/views/SVG'),
     children: [{
-        path: 'example1',
-        name: 'svg基本',
-        component: () => import( /* webpackChunkName: "example1" */ '@/views/SVG/example1.vue')
-    }, {
-        path: 'example2',
-        name: 'svg基本2',
-        component: () => import( /* webpackChunkName: "example2" */ '@/views/SVG/example2.vue')
-    }, {
-        path: 'example3',
-        name: 'svg裁剪和蒙版',
-        component: () => import( /* webpackChunkName: "example3" */ '@/views/SVG/example3.vue')
-    }, {
-        path: 'd3example',
-        name: 'D3',
-        component: () => import( /* webpackChunkName: "d3example" */ '@/views/SVG/d3example.vue')
+        path: '/PageJsonEditor',
+        name: 'PageJsonEditor',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import( /* webpackChunkName: "about" */ '@/pages/PageJsonEditor/PageJsonEditor.vue')
     }]
 }

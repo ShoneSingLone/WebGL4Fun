@@ -28,6 +28,9 @@
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
+    "@ventose/window": "0.0.2",
+    "monaco-editor": "^0.18.0",
+    "vue-drag-drop": "^1.1.4",
     "zangodb": "^1.0.7"
   },
   "devDependencies": {
