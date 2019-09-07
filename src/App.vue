@@ -73,16 +73,9 @@ export default {
   },
   watch: {
     filterText(val) {
-      debugger;
       this.$refs.tree.filter(val);
     }
   },
-  components: {
-    CResizeContainer: () =>
-      import(
-        /* webpackChunkName: "ResizeContainer" */ "@c/layout/ResizeContainer.vue"
-      )
-  }
 };
 </script>
 
