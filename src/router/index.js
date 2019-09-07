@@ -7,6 +7,7 @@ import RouterWebGL from './RouterWebGL.js'
 import RouterAnimation from './RouterAnimation.js'
 import RouterSVG from './RouterSVG.js'
 import RouterChart from './RouterChart.js'
+import RouterTools from './RouterTools.js'
 
 
 Vue.use(Router);
@@ -20,9 +21,10 @@ let routes = [
     },
     RouterWebGL,
     RouterThreeJS,
-    RouterSVG,
+    // RouterSVG,
     RouterChart,
-    RouterAnimation
+    RouterAnimation,
+    RouterTools
 ];
 
 export let routeTree = routes;

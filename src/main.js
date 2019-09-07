@@ -9,6 +9,12 @@ import '@/assets/animate.css';
 import './plugins/element.js';
 import './app.scss';
 import "@/utils/WebGL.js";
+import VueDragDrop from "vue-drag-drop";
+import VueWindow from "@ventose/window";
+Vue.use(VueWindow);
+Vue.use(VueDragDrop);
+
+
 window.Vue = Vue;
 Vue.config.productionTip = false
 

@@ -42,7 +42,10 @@
                 :rowspan="item.rowspan"
               >
                 <drag tag="div" :transfer-data="{ trI:trI,tdI:tdI}">
-                  <div>{{ item.label }}{{ item.rowspan }}{{item.type}}</div>
+                  <div
+                    :class="['tr-td-content',{'current':`tr${trI}td${tdI}`===currentSelectItem}]"
+                    @click="selectIitem(tr,td,item)"
+                  >{{ item.label }}{{ item.rowspan }}{{item.type}}</div>
                 </drag>
               </drop>
             </tr>
@@ -62,10 +65,14 @@ export default {
   data() {
     return {
       formData: mockData.DSLTable,
-      window1: { width: 500, isOpenWindow: true, height: 500 }
+      window1: { width: 500, isOpenWindow: true, height: 500 },
+      currentSelectItem: ""
     };
   },
   methods: {
+    selectIitem(trI, tdI, item) {
+      this.currentSelectItem = `tr${trI}td${tdI}`;
+    },
     handleDrop(toItem, fromItem) {
       const _list = cloneDeep(this.formData);
       const toValue = this.formData[toItem.trI][toItem.tdI],
