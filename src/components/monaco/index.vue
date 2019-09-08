@@ -1,5 +1,5 @@
 <template>
-  <div id="container" style="height:100%;"></div>
+  <div ref="container" style="height:100%;"></div>
 </template>
 <script>
 // import "monaco-editor/min/vs/basic-languages/javascript/javascript.js";
@@ -26,9 +26,12 @@ export default {
     return { id: "JsonDataForm", monacoInstance: null, model };
   },
   watch: {
-    value(val) {
-      this.model = val;
-      this.setValue(val);
+    value: {
+      handler: function(val, oldVal) {
+        this.model = val;
+        this.setValue(val);
+      },
+      deep: true
     }
   },
   methods: {
@@ -80,23 +83,20 @@ export default {
         })
         .sort(); */
         //创建编辑器
-        this.monacoInstance = monaco.editor.create(
-          document.getElementById("container"),
-          {
-            //内容
-            // value: 'console.log("Hello world!");',
-            //语言
-            language: "javascript",
-            //自适应调整
-            automaticLayout: true,
-            //主题，三款：vs、vs-dark、hc-black
-            theme: "vs-dark",
-            //代码略缩图
-            minimap: {
-              enabled: true
-            }
+        this.monacoInstance = monaco.editor.create(this.$refs.container, {
+          //内容
+          // value: 'console.log("Hello world!");',
+          //语言
+          language: "javascript",
+          //自适应调整
+          automaticLayout: true,
+          //主题，三款：vs、vs-dark、hc-black
+          theme: "vs-dark",
+          //代码略缩图
+          minimap: {
+            enabled: true
           }
-        );
+        });
         //内容改变事件
         /*       this.monacoInstance.onDidChangeModelContent(e => { });
          */

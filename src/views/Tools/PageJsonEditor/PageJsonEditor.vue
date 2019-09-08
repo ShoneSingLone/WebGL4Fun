@@ -24,21 +24,7 @@
                   <monaco v-model="formData"></monaco>
                 </div>
               </hsc-window>
-            </hsc-window-style-metal>
-            
-            <hsc-window-style-metal v-if="currentItem">
-              <hsc-window
-                title="JSON数据 Ctrl + S 保存"
-                :closeButton="true"
-                :isOpen.sync="itemConfigWindow.isOpenWindow"
-                :resizable="true"
-                :width.sync="itemConfigWindow.width"
-                :height.sync="itemConfigWindow.height"
-              >
-                <div class="window-content">
-                  <monaco v-model="formData"></monaco>
-                </div>
-              </hsc-window>
+              <item-editor-pane :model="itemConfigWindow" @change="handleItemChange"></item-editor-pane>
             </hsc-window-style-metal>
           </div>
         </div>
@@ -83,6 +69,7 @@
 import mockData from "./DSLTable";
 import monaco from "@/components/monaco";
 import cloneDeep from "lodash/cloneDeep";
+import ItemEditorPane from "./ItemEditorPane";
 
 export default {
   name: "PageJsonEditor",
@@ -90,15 +77,24 @@ export default {
     return {
       formData: mockData.DSLTable,
       window1: { width: 500, isOpenWindow: true, height: 500 },
-      itemConfigWindow: { width: 500, isOpenWindow: true, height: 500 },
+      itemConfigWindow: {
+        width: 500,
+        isOpenWindow: true,
+        height: 500,
+        formData: ""
+      },
       currentSelectItem: "",
       currentItem: null
     };
   },
   methods: {
     selectIitem(trI, tdI, item) {
+      this.itemConfigWindow.isOpenWindow = true;
       this.currentSelectItem = `tr${trI}td${tdI}`;
       this.currentItem = item;
+      this.itemConfigWindow.trI = trI;
+      this.itemConfigWindow.tdI = tdI;
+      this.itemConfigWindow.formData = cloneDeep(item);
     },
     handleDrop(toItem, fromItem) {
       const _list = cloneDeep(this.formData);
@@ -107,10 +103,16 @@ export default {
       _list[fromItem.trI][fromItem.tdI] = toValue;
       _list[toItem.trI][toItem.tdI] = fromValue;
       this.formData = _list;
+    },
+    handleItemChange(info) {
+      const _list = cloneDeep(this.formData);
+      _list[info.trI][info.tdI] = info.item;
+      this.formData = _list;
     }
   },
   components: {
-    monaco
+    monaco,
+    ItemEditorPane
   }
 };
 </script>

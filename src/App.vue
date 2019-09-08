@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <el-button
+      v-drag
       id="navigation-toggle"
       v-show="!window1.isOpenWindow"
       @click="window1.isOpenWindow=!window1.isOpenWindow"
@@ -75,7 +76,7 @@ export default {
     filterText(val) {
       this.$refs.tree.filter(val);
     }
-  },
+  }
 };
 </script>
 

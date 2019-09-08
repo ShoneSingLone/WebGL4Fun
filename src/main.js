@@ -11,6 +11,9 @@ import './app.scss';
 import "@/utils/WebGL.js";
 import VueDragDrop from "vue-drag-drop";
 import VueWindow from "@ventose/window";
+
+import drag from '@branu-jp/v-drag'
+Vue.use(drag)
 Vue.use(VueWindow);
 Vue.use(VueDragDrop);
 
