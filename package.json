@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "start": "npm run serve",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "getlib": "vue-cli-service build --target lib --name jsonEditor --dest lib/jsonEditor ./src/components/monaco/lib.js"
   },
   "dependencies": {
     "@branu-jp/v-drag": "^0.1.0",
@@ -33,6 +34,7 @@
     "vue-drag-drop": "^1.1.4",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
+    "webpack-shell-plugin": "^0.5.0",
     "zangodb": "^1.0.7"
   },
   "devDependencies": {

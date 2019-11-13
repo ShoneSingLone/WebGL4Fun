@@ -21,7 +21,7 @@ let routes = [
     },
     RouterWebGL,
     RouterThreeJS,
-    // RouterSVG,
+    RouterSVG,
     RouterChart,
     RouterAnimation,
     RouterTools
