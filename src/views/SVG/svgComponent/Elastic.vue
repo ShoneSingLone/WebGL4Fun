@@ -16,12 +16,26 @@
       <slot name="header"></slot>
     </div>
     <div class="content" :style="contentPosition">
-      <slot name="content"></slot>
+      <slot name="content">
+        <p>
+          Note this is just an effect demo - there are of course many additional details if you want to use this in
+          productions, e.g. handling responsive sizes, reload threshold and content scrolling. Those are out of scope
+          for this quick little hack. However, the idea is that you can hide them as internal details of a Vue.js
+          component and expose a simple Web-Component-like interface.
+        </p>
+        <p>
+          <a
+            href="https://github.com/vuejs/vue/tree/dev/examples/elastic-header"
+            target="_blank"
+          >[Source]</a>
+        </p>
+      </slot>
     </div>
   </div>
 </template>
 
 <script>
+import dynamics from "dynamics.js";
 export default {
   name: "Elastic",
   data() {
