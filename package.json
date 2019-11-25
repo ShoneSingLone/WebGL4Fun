@@ -17,6 +17,7 @@
     "@ventose/window": "0.0.2",
     "axios": "^0.18.0",
     "d3": "^5.9.7",
+    "dynamics.js": "^1.1.5",
     "element-ui": "^2.8.2",
     "es6-promise": "^4.2.8",
     "es6-symbol": "^3.1.1",
