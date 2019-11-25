@@ -3,6 +3,7 @@
 [openclipart](http://www.openclipart.org/)
 [godotengine](https://godotengine.org/)
 [voxel-engine](https://github.com/maxogden/voxel-engine)
+[dynamicsjs 物理动画插件](http://dynamicsjs.com/)
 
 [Three.js入门指南：张雯莉](https://read.douban.com/reader/ebook/7412854/)
 [source code](https://github.com/Ovilia/ThreeExample.js)
