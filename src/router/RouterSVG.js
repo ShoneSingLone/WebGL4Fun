@@ -7,5 +7,9 @@ export default {
         path: 'example4',
         name: 'example4',
         component: () => import( /* webpackChunkName: "chart.example" */ '@/views/SVG/example4.vue')
+    },{
+        path: 'corner',
+        name: 'corner',
+        component: () => import( /* webpackChunkName: "chart.example" */ '@/views/SVG/example5.vue')
     }]
 }

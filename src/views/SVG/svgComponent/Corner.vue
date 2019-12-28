@@ -1,22 +1,23 @@
 <template style="display:none">
-  <div class="elastic" @click="switchState">
+  <div class="elastic">
     <svg class="bg" width="560" height="320">
-      <text x="280" y="160" style="text-anchor:middle">{{headerPath}}</text>
-      <path :d="dPath" stroke="rgba(30, 90, 150, 0.78)" fill="none" />
-      <path :d="qPathUp" stroke="rgba(30, 90, 150, 0.78)" fill="none" />
-      <path :d="qPathDown" stroke="rgba(30, 90, 150, 0.78)" fill="none" />
-      <circle cx="280" cy="160" r="2" stroke="red" />
+      <defs>
+        <filter id="shadow" x="0" y="0" width="100%" height="100%" filterUnits="userSpaceOnUse">
+          <feOffset dx="4" dy="5" input="SourceAlpha" />
+          <feGaussianBlur stdDeviation="5" result="blur" />
+          <feFlood flood-opacity="0.8" />
+          <feComposite operator="in" in2="blur" />
+          <feComposite in="SourceGraphic" />
+        </filter>
+      </defs>
+      <path :d="dPath" stroke="rgba(30, 90, 150, 0.78)" fill="#fff" />
+      <path :d="qPathUp" stroke="rgba(30, 90, 150, 0.78)" fill="none" filter="url(#shadow)" />
+      <path :d="qPathDown" stroke="rgba(30, 90, 150, 0.78)" fill="none" filter="url(#shadow)" />
+      <path :d="areaPath" stroke="rgba(30, 90, 150, 0.78)" fill="gray" />
     </svg>
-    <div class="header">
-      <slot name="header"></slot>
-    </div>
-    <div class="content" :style="contentPosition">
-      <slot name="content">
-        <pre>
-          {{JSON.stringify(c,null,2)}}
-        </pre>
-        <p></p>
-      </slot>
+    <div class="div-container">
+      someting others
+      <button @click="switchState">switchState</button>
     </div>
   </div>
 </template>
@@ -27,6 +28,7 @@ export default {
   name: "Corner",
   data() {
     return {
+      isOpen: false,
       dragging: false,
       // quadratic bezier control point
       c: {
@@ -48,13 +50,12 @@ export default {
       },
       cPoint: {
         x: 500,
-        y: 60
+        y: 0
       }
     };
   },
 
   computed: {
-    isOpen: true,
     dPath() {
       return `
       M0 0 
@@ -83,9 +84,28 @@ export default {
       ${this.cPoint.x} ${this.cPoint.y}
       `;
     },
-    headerPath() {
-      console.log(JSON.stringify(this.c, null, 2));
-      return `M0,0 L560,0 560,160 Q${this.c.x},${this.c.y} 0,160`;
+    areaPath() {
+      return `
+      M${this.aPoint.x} ${this.aPoint.y}
+      L${this.bPoint.x} ${this.bPoint.y}
+      Q${(this.aPoint.x + this.bPoint.x) / 2} ${(this.aPoint.y +
+        this.bPoint.y) /
+        2} 
+      ${this.cPoint.x} ${this.cPoint.y}
+      Q${(this.aPoint.x + this.bPoint.x) / 2} ${(this.aPoint.y +
+        this.bPoint.y) /
+        2} 
+      ${this.aPoint.x} ${this.aPoint.y} 
+      Z
+      `;
+    },
+    backPath() {
+      return `
+      M${this.aPoint.x} ${this.aPoint.y}
+      L560 0
+      L${this.bPoint.x} ${this.bPoint.y}
+      Z
+      `;
     },
     contentPosition() {
       const dy = this.c.y - 160;
@@ -114,74 +134,22 @@ export default {
           x: 560,
           y: 0
         };
+      let dynamicOptions = {
+        type: dynamics.spring,
+        duration: 4000,
+        friction: 280
+      };
 
-      if (this.switchState.isOpen) {
-        this.switchState.isOpen = false;
-        dynamics.animate(this.aPoint, allEnd, {
-          type: dynamics.spring,
-          duration: 4000,
-          friction: 280
-        });
-        dynamics.animate(this.bPoint, allEnd, {
-          type: dynamics.spring,
-          duration: 3000,
-          friction: 280
-        });
-        dynamics.animate(this.cPoint, allEnd, {
-          type: dynamics.spring,
-          duration: 3000,
-          friction: 280
-        });
+      if (this.isOpen) {
+        this.isOpen = false;
+        dynamics.animate(this.aPoint, allEnd, dynamicOptions);
+        dynamics.animate(this.bPoint, allEnd, dynamicOptions);
+        dynamics.animate(this.cPoint, allEnd, dynamicOptions);
       } else {
-        this.switchState.isOpen = true;
-        dynamics.animate(this.aPoint, aStart, {
-          type: dynamics.spring,
-          duration: 3000,
-          friction: 280
-        });
-        dynamics.animate(this.bPoint, bStart, {
-          type: dynamics.spring,
-          duration: 4000,
-          friction: 280
-        });
-        dynamics.animate(this.cPoint, cStart, {
-          type: dynamics.spring,
-          duration: 4000,
-          friction: 280
-        });
-      }
-    },
-    startDrag(e) {
-      e = e.changedTouches ? e.changedTouches[0] : e;
-      this.dragging = true;
-      this.start.x = e.pageX;
-      this.start.y = e.pageY;
-    },
-    onDrag(e) {
-      e = e.changedTouches ? e.changedTouches[0] : e;
-      if (this.dragging) {
-        this.c.x = 160 + (e.pageX - this.start.x);
-        // dampen vertical drag by a factor
-        const dy = e.pageY - this.start.y;
-        const dampen = dy > 0 ? 1.5 : 4;
-        this.c.y = 160 + dy / dampen;
-      }
-    },
-    stopDrag() {
-      if (this.dragging) {
-        this.dragging = false;
-        dynamics.animate(
-          this.c,
-          {
-            x: 280,
-            y: 160
-          },
-          {
-            type: dynamics.spring,
-            duration: 700,
-            friction: 280
-          }
-        );
+        this.isOpen = true;
+        dynamics.animate(this.aPoint, aStart, dynamicOptions);
+        dynamics.animate(this.bPoint, bStart, dynamicOptions);
+        dynamics.animate(this.cPoint, cStart, dynamicOptions);
       }
     }
   }
@@ -190,7 +158,7 @@ export default {
 <style>
 .elastic {
   background-color: #fff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  background: url(https://cn.vuejs.org/images/logo.png) center center/6%;
   width: 560px;
   height: 320px;
   overflow: hidden;
@@ -216,28 +184,10 @@ h1 {
 }
 
 .header,
-.content {
+.div-container {
   position: relative;
   z-index: 1;
   padding: 30px;
   box-sizing: border-box;
-}
-
-.header {
-  color: #fff;
-  height: 160px;
-
-  a {
-    color: #fff;
-  }
-}
-
-.content {
-  color: #333;
-  line-height: 1.5em;
-
-  a {
-    color: #3f51b5;
-  }
 }
 </style>
