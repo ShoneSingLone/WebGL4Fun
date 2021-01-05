@@ -15,7 +15,7 @@
     "@types/three": "^0.93.18",
     "@ventose/utils-loadjs": "^0.0.3",
     "@ventose/window": "0.0.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "d3": "^5.9.7",
     "dynamics.js": "^1.1.5",
     "element-ui": "^2.8.2",
